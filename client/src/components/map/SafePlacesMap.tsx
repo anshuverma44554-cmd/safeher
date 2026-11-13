@@ -17,6 +17,14 @@ import {
   LocateFixed
 } from 'lucide-react';
 
+// Fix default Leaflet icon paths in Vite / React
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+  iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+});
+
 // Custom Map Re-center Helper Component
 const RecenterMap: React.FC<{ center: [number, number]; zoom?: number }> = ({ center, zoom = 14 }) => {
   const map = useMap();
@@ -26,25 +34,43 @@ const RecenterMap: React.FC<{ center: [number, number]; zoom?: number }> = ({ ce
   return null;
 };
 
-// Map Resizer to ensure Leaflet calculates correct dimensions on mount and resize
+// Map Resizer to ensure Leaflet calculates correct dimensions on mount, resize, and visibility
 const MapResizer: React.FC = () => {
   const map = useMap();
   useEffect(() => {
     map.invalidateSize();
-    const t1 = setTimeout(() => map.invalidateSize(), 100);
-    const t2 = setTimeout(() => map.invalidateSize(), 300);
-    const t3 = setTimeout(() => map.invalidateSize(), 600);
+    const t1 = setTimeout(() => map.invalidateSize(), 50);
+    const t2 = setTimeout(() => map.invalidateSize(), 150);
+    const t3 = setTimeout(() => map.invalidateSize(), 300);
+    const t4 = setTimeout(() => map.invalidateSize(), 600);
+    const t5 = setTimeout(() => map.invalidateSize(), 1000);
 
     const onResize = () => map.invalidateSize();
     window.addEventListener('resize', onResize);
     window.addEventListener('load', onResize);
 
+    let ro: ResizeObserver | null = null;
+    try {
+      const container = map.getContainer();
+      if (container && typeof ResizeObserver !== 'undefined') {
+        ro = new ResizeObserver(() => {
+          map.invalidateSize();
+        });
+        ro.observe(container);
+      }
+    } catch (e) {
+      // Ignore if ResizeObserver is not supported
+    }
+
     return () => {
       clearTimeout(t1);
       clearTimeout(t2);
       clearTimeout(t3);
+      clearTimeout(t4);
+      clearTimeout(t5);
       window.removeEventListener('resize', onResize);
       window.removeEventListener('load', onResize);
+      if (ro) ro.disconnect();
     };
   }, [map]);
   return null;

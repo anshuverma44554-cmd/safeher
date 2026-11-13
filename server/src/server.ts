@@ -32,6 +32,8 @@ app.use(helmet({
         "data:",
         "blob:",
         "https://*.tile.openstreetmap.org",
+        "https://tile.openstreetmap.org",
+        "https://*.openstreetmap.org",
         "https://images.unsplash.com",
         "https://unpkg.com",
         "https://cdnjs.cloudflare.com",
@@ -41,8 +43,11 @@ app.use(helmet({
       connectSrc: [
         "'self'",
         "https://*.tile.openstreetmap.org",
+        "https://tile.openstreetmap.org",
+        "https://*.openstreetmap.org",
         "https://generativelanguage.googleapis.com",
-        "https://*.supabase.co"
+        "https://*.supabase.co",
+        "*"
       ],
       objectSrc: ["'none'"],
       upgradeInsecureRequests: [],
