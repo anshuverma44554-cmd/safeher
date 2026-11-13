@@ -1,0 +1,15 @@
+{
+  "name": "safeher",
+  "version": "1.0.0",
+  "description": "SafeHer - Travel Freely. Stay Safely. Full-Stack Women Safety Web Application",
+  "scripts": {
+    "dev": "concurrently -n \"SERVER,CLIENT\" -c \"magenta,cyan\" \"npm.cmd --prefix server run dev\" \"npm.cmd --prefix client run dev\"",
+    "dev:server": "npm.cmd --prefix server run dev",
+    "dev:client": "npm.cmd --prefix client run dev",
+    "build": "npm.cmd --prefix server run build && npm.cmd --prefix client run build",
+    "start": "node server/dist/server.js"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

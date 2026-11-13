@@ -1,0 +1,247 @@
+{
+  "profiles": [
+    {
+      "id": "11111111-1111-1111-1111-111111111111",
+      "email": "traveller@safeher.org",
+      "password_hash": "$2a$10$zOdKJyXFMQoAgN.zqlduSOcXBHLzij9PLT5n1nXtvimpHOoLCI3my",
+      "full_name": "Priya Sharma",
+      "phone": "+91 98765 43210",
+      "role": "traveller",
+      "avatar_url": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150",
+      "emergency_notes": "Asthma inhaler in backpack side pouch. Emergency contact: Mother.",
+      "blood_group": "O+",
+      "created_at": "2026-10-13T18:14:05.306Z",
+      "updated_at": "2026-11-12T18:14:05.308Z"
+    },
+    {
+      "id": "22222222-2222-2222-2222-222222222222",
+      "email": "guardian@safeher.org",
+      "password_hash": "$2a$10$zOdKJyXFMQoAgN.zqlduSOcXBHLzij9PLT5n1nXtvimpHOoLCI3my",
+      "full_name": "Sunita Rao",
+      "phone": "+91 98111 22334",
+      "role": "guardian",
+      "avatar_url": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150",
+      "emergency_notes": "Red Cross Certified in Emergency First Aid. Community leader.",
+      "blood_group": "B+",
+      "created_at": "2026-09-13T18:14:05.308Z",
+      "updated_at": "2026-11-12T18:14:05.308Z"
+    },
+    {
+      "id": "33333333-3333-3333-3333-333333333333",
+      "email": "guardian2@safeher.org",
+      "password_hash": "$2a$10$zOdKJyXFMQoAgN.zqlduSOcXBHLzij9PLT5n1nXtvimpHOoLCI3my",
+      "full_name": "Ananya Verma",
+      "phone": "+91 98222 33445",
+      "role": "guardian",
+      "avatar_url": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150",
+      "emergency_notes": "Delhi University Faculty & Women Safety Committee Member.",
+      "blood_group": "A+",
+      "created_at": "2026-11-07T18:14:05.308Z",
+      "updated_at": "2026-11-12T18:14:05.308Z"
+    },
+    {
+      "id": "44444444-4444-4444-4444-444444444444",
+      "email": "admin@safeher.org",
+      "password_hash": "$2a$10$zOdKJyXFMQoAgN.zqlduSOcXBHLzij9PLT5n1nXtvimpHOoLCI3my",
+      "full_name": "SafeHer Admin Operations",
+      "phone": "+91 11 2345 6789",
+      "role": "admin",
+      "avatar_url": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150",
+      "emergency_notes": "Central Trust & Safety Operations Lead",
+      "blood_group": "AB+",
+      "created_at": "2026-08-14T18:14:05.308Z",
+      "updated_at": "2026-11-12T18:14:05.308Z"
+    }
+  ],
+  "guardians": [
+    {
+      "id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
+      "user_id": "22222222-2222-2222-2222-222222222222",
+      "bio": "Verified Community Guardian & Red Cross Certified in Emergency First Aid. Active in Central Delhi area. Available 24/7 for safe escorts & emergency assistance.",
+      "languages": [
+        "English",
+        "Hindi",
+        "Punjabi"
+      ],
+      "address": "Block B, Connaught Place",
+      "city": "New Delhi",
+      "identification_type": "National Identity Card (Aadhaar/Voter)",
+      "id_document_url": "https://images.unsplash.com/photo-1633409381658-a0cdef8c3498?w=400",
+      "verification_status": "verified",
+      "is_available": true,
+      "current_lat": 28.6315,
+      "current_lng": 77.2167,
+      "rating": 4.98,
+      "total_assists": 38,
+      "emergency_phone": "+91 98111 22334",
+      "created_at": "2026-09-13T18:14:05.308Z",
+      "updated_at": "2026-11-12T18:14:05.308Z"
+    },
+    {
+      "id": "cccccccc-cccc-cccc-cccc-cccccccccccc",
+      "user_id": "33333333-3333-3333-3333-333333333333",
+      "bio": "University Professor & Campus Safety Coordinator. Applied for community guardian verification.",
+      "languages": [
+        "English",
+        "Hindi"
+      ],
+      "address": "South Extension Part II",
+      "city": "New Delhi",
+      "identification_type": "Passport & Faculty Verification Badge",
+      "id_document_url": "https://images.unsplash.com/photo-1544717305-2782549b5136?w=400",
+      "verification_status": "pending",
+      "is_available": false,
+      "current_lat": 28.5701,
+      "current_lng": 77.2215,
+      "rating": 5,
+      "total_assists": 0,
+      "emergency_phone": "+91 98222 33445",
+      "created_at": "2026-11-07T18:14:05.308Z",
+      "updated_at": "2026-11-12T18:14:05.308Z"
+    }
+  ],
+  "contacts": [
+    {
+      "id": "tc111111-1111-1111-1111-111111111111",
+      "traveller_id": "11111111-1111-1111-1111-111111111111",
+      "name": "Kavita Sharma",
+      "relationship": "Mother",
+      "phone": "+91 98765 00001",
+      "email": "kavita.sharma@example.com",
+      "is_primary": true,
+      "notify_on_sos": true,
+      "notify_on_journey": true,
+      "created_at": "2026-10-13T18:14:05.308Z"
+    },
+    {
+      "id": "tc222222-2222-2222-2222-222222222222",
+      "traveller_id": "11111111-1111-1111-1111-111111111111",
+      "name": "Rohan Sharma",
+      "relationship": "Brother",
+      "phone": "+91 98765 00002",
+      "email": "rohan.sharma@example.com",
+      "is_primary": false,
+      "notify_on_sos": true,
+      "notify_on_journey": true,
+      "created_at": "2026-10-18T18:14:05.308Z"
+    },
+    {
+      "id": "tc333333-3333-3333-3333-333333333333",
+      "traveller_id": "11111111-1111-1111-1111-111111111111",
+      "name": "Neha Gupta",
+      "relationship": "Best Friend / Colleague",
+      "phone": "+91 98765 00003",
+      "email": "neha.gupta@example.com",
+      "is_primary": false,
+      "notify_on_sos": true,
+      "notify_on_journey": false,
+      "created_at": "2026-10-23T18:14:05.308Z"
+    }
+  ],
+  "journeys": [
+    {
+      "id": "j1111111-1111-1111-1111-111111111111",
+      "traveller_id": "11111111-1111-1111-1111-111111111111",
+      "start_location_name": "Connaught Place Inner Circle",
+      "start_lat": 28.6315,
+      "start_lng": 77.2167,
+      "destination_name": "India Gate Central Lawns",
+      "dest_lat": 28.6129,
+      "dest_lng": 77.2295,
+      "status": "active",
+      "share_token": "SAFE-TRACK-DELHI-9842",
+      "expected_arrival_time": "2026-11-12T18:49:05.308Z",
+      "created_at": "2026-11-12T18:14:05.308Z",
+      "updated_at": "2026-11-12T18:14:05.308Z"
+    }
+  ],
+  "emergencies": [],
+  "safePlaces": [
+    {
+      "id": "sp111111-1111-1111-1111-111111111111",
+      "name": "Connaught Place Women Special Police Assistance Booth",
+      "category": "police",
+      "address": "Outer Circle, Near Rajiv Chowk Gate 2, New Delhi",
+      "latitude": 28.6328,
+      "longitude": 77.2195,
+      "phone": "112 / 1091 (Women Helpline)",
+      "open_hours": "24/7 Open",
+      "is_verified": true,
+      "rating": 4.9,
+      "description": "Special women police desk equipped with CCTV monitoring and safe waiting zone.",
+      "created_at": "2026-11-12T18:14:05.308Z"
+    },
+    {
+      "id": "sp222222-2222-2222-2222-222222222222",
+      "name": "Dr. Ram Manohar Lohia Hospital (Emergency Trauma Wing)",
+      "category": "hospital",
+      "address": "Baba Kharak Singh Marg, New Delhi",
+      "latitude": 28.6247,
+      "longitude": 77.2023,
+      "phone": "+91 11 2336 5525",
+      "open_hours": "24/7 Emergency",
+      "is_verified": true,
+      "rating": 4.8,
+      "description": "Premier government trauma hospital with dedicated emergency triage and ambulance bay.",
+      "created_at": "2026-11-12T18:14:05.308Z"
+    },
+    {
+      "id": "sp333333-3333-3333-3333-333333333333",
+      "name": "Apollo 24/7 Pharmacy & Wellness Hub",
+      "category": "pharmacy",
+      "address": "Radial Road 4, Connaught Circus, New Delhi",
+      "latitude": 28.63,
+      "longitude": 77.218,
+      "phone": "+91 11 2341 8900",
+      "open_hours": "24/7 Open",
+      "is_verified": true,
+      "rating": 4.7,
+      "description": "Well-lit 24/7 pharmacy staffed with licensed medical staff and security personnel.",
+      "created_at": "2026-11-12T18:14:05.308Z"
+    },
+    {
+      "id": "sp444444-4444-4444-4444-444444444444",
+      "name": "Rajiv Chowk Metro Station Safe Assistance Center",
+      "category": "transit_hub",
+      "address": "Rajiv Chowk Metro Interchange, New Delhi",
+      "latitude": 28.6329,
+      "longitude": 77.2192,
+      "phone": "+91 11 2341 7910",
+      "open_hours": "05:30 AM - 11:30 PM",
+      "is_verified": true,
+      "rating": 4.9,
+      "description": "CISF security post, helpdesk, women-only coaches entry assistance and CCTV surveillance.",
+      "created_at": "2026-11-12T18:14:05.308Z"
+    },
+    {
+      "id": "sp555555-5555-5555-5555-555555555555",
+      "name": "Barista 24/7 Safe Haven Cafe",
+      "category": "24h_cafe",
+      "address": "M-Block, Outer Circle, Connaught Place, New Delhi",
+      "latitude": 28.6335,
+      "longitude": 77.221,
+      "phone": "+91 11 4151 7700",
+      "open_hours": "24/7 Safe Space",
+      "is_verified": true,
+      "rating": 4.6,
+      "description": "Verified SafeHer partner cafe with 24-hour security, free Wi-Fi, phone charging, and safe waiting seating.",
+      "created_at": "2026-11-12T18:14:05.308Z"
+    },
+    {
+      "id": "sp666666-6666-6666-6666-666666666666",
+      "name": "Parliament Street Police Station",
+      "category": "police",
+      "address": "Parliament Street, New Delhi",
+      "latitude": 28.6231,
+      "longitude": 77.2144,
+      "phone": "+91 11 2374 6100",
+      "open_hours": "24/7 Open",
+      "is_verified": true,
+      "rating": 4.8,
+      "description": "Central police station with dedicated women safety officers and rapid mobile patrol units.",
+      "created_at": "2026-11-12T18:14:05.308Z"
+    }
+  ],
+  "logs": [],
+  "notifications": []
+}
