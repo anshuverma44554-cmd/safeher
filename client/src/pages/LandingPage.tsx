@@ -29,6 +29,7 @@ import {
 import { SafePlacesMap } from '../components/map/SafePlacesMap';
 import { useAuth } from '../context/AuthContext';
 import { useEmergency } from '../context/EmergencyContext';
+import { TestimonialGlobeDemo } from '../components/ui/testimonial-globe-demo';
 
 export const LandingPage: React.FC = () => {
   const { isAuthenticated, demoLogin } = useAuth();
@@ -634,6 +635,11 @@ export const LandingPage: React.FC = () => {
                 </div>
               </div>
             ))}
+          </div>
+
+          {/* 3D Interactive Testimonial Globe - SafeHer World Network */}
+          <div className="mt-14 pt-10 border-t border-slate-800/80">
+            <TestimonialGlobeDemo />
           </div>
         </div>
       </section>

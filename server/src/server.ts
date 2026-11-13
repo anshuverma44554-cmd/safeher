@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
+import path from 'path';
+import fs from 'fs';
 import { config } from './config/env.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
@@ -68,8 +70,23 @@ app.use('/api/contacts', contactRoutes);
 app.use('/api/ai', aiRoutes);
 app.use('/api/admin', adminRoutes);
 
-// 404 Handler
-app.use((req, res) => {
+// Serve Static Frontend Assets (Production on Render)
+const clientDistPath = fs.existsSync(path.resolve(process.cwd(), 'client/dist'))
+  ? path.resolve(process.cwd(), 'client/dist')
+  : path.resolve(process.cwd(), '../client/dist');
+if (fs.existsSync(clientDistPath)) {
+  app.use(express.static(clientDistPath));
+
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api')) {
+      return next();
+    }
+    res.sendFile(path.join(clientDistPath, 'index.html'));
+  });
+}
+
+// 404 Handler for API routes
+app.use('/api', (req, res) => {
   res.status(404).json({
     success: false,
     error: `Cannot ${req.method} ${req.originalUrl}`,

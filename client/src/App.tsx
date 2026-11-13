@@ -20,6 +20,7 @@ import { AdminDashboard } from './pages/AdminDashboard';
 import { PublicTrackingPage } from './pages/PublicTrackingPage';
 import { SafePlacesPage } from './pages/SafePlacesPage';
 import { AiSafetyPage } from './pages/AiSafetyPage';
+import { TestimonialGlobeDemo } from './components/ui/testimonial-globe-demo';
 
 // Protected Route Guard
 const ProtectedRoute: React.FC<{ children: React.ReactNode; allowedRoles?: Array<'traveller' | 'guardian' | 'admin'> }> = ({
@@ -58,6 +59,7 @@ function AppContent() {
       <main className="flex-1">
         <Routes>
           <Route path="/" element={<LandingPage />} />
+          <Route path="/globe" element={<TestimonialGlobeDemo />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/safe-places" element={<SafePlacesPage />} />

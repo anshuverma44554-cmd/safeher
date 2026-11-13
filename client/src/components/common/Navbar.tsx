@@ -13,7 +13,8 @@ import {
   Navigation,
   ShieldCheck,
   LifeBuoy,
-  UserCheck
+  UserCheck,
+  Globe
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useEmergency } from '../../context/EmergencyContext';
@@ -89,6 +90,18 @@ export const Navbar: React.FC = () => {
             >
               <MapPin className="w-4 h-4 text-purple-400" />
               Safe Places Map
+            </Link>
+
+            <Link
+              to="/globe"
+              className={`px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-1.5 ${
+                location.pathname === '/globe'
+                  ? 'bg-purple-950/80 text-purple-200 border border-purple-700/60 shadow-xs font-bold'
+                  : 'text-slate-300 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              <Globe className="w-4 h-4 text-emerald-400" />
+              3D Globe
             </Link>
 
             <Link
@@ -261,6 +274,13 @@ export const Navbar: React.FC = () => {
             className="block px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-300 hover:bg-purple-950/60 hover:text-white"
           >
             Safe Places Map
+          </Link>
+          <Link
+            to="/globe"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block px-3 py-2.5 rounded-xl text-sm font-semibold text-slate-300 hover:bg-purple-950/60 hover:text-white"
+          >
+            3D Global Network
           </Link>
           <Link
             to="/assistant"
