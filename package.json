@@ -4,7 +4,7 @@
   "description": "SafeHer - Travel Freely. Stay Safely. Full-Stack Women Safety Web Application",
   "scripts": {
     "install:all": "npm --prefix server install && npm --prefix client install",
-    "build": "npm --prefix server install && npm --prefix server run build && npm --prefix client install && npm --prefix client run build",
+    "build": "npm --prefix server install && npm --prefix server run build && npm --prefix client install && npm --prefix client run build && node -e \"const fs=require('fs'); if(fs.existsSync('client/dist')){fs.cpSync('client/dist','public',{recursive:true});fs.cpSync('client/dist','dist',{recursive:true});}\"",
     "dev": "concurrently -n \"SERVER,CLIENT\" -c \"magenta,cyan\" \"npm --prefix server run dev\" \"npm --prefix client run dev\"",
     "dev:server": "npm --prefix server run dev",
     "dev:client": "npm --prefix client run dev",

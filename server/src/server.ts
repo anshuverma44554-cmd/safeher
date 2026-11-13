@@ -138,15 +138,17 @@ app.use('/api', (req, res) => {
 // Centralized Error Handler
 app.use(errorHandler);
 
-// Start Server
-const server = app.listen(config.port, () => {
-  console.log(`=======================================================`);
-  console.log(`  🛡️  SafeHer Backend Server Running on Port ${config.port}`);
-  console.log(`  🚀  URL: http://localhost:${config.port}`);
-  console.log(`  🔐  Supabase Mode: ${config.supabase.isConfigured ? 'LIVE SUPABASE' : 'RESILIENT HYBRID STORE'}`);
-  console.log(`  ✨  Gemini AI Mode: ${config.gemini.isConfigured ? 'LIVE GEMINI API' : 'OFFLINE SAFETY ENGINE'}`);
-  console.log(`=======================================================`);
-});
+// Start Server (Standalone node daemon for Render / Docker / Local; skipped on Vercel Serverless)
+if (!process.env.VERCEL) {
+  app.listen(config.port, () => {
+    console.log(`=======================================================`);
+    console.log(`  🛡️  SafeHer Backend Server Running on Port ${config.port}`);
+    console.log(`  🚀  URL: http://localhost:${config.port}`);
+    console.log(`  🔐  Supabase Mode: ${config.supabase.isConfigured ? 'LIVE SUPABASE' : 'RESILIENT HYBRID STORE'}`);
+    console.log(`  ✨  Gemini AI Mode: ${config.gemini.isConfigured ? 'LIVE GEMINI API' : 'OFFLINE SAFETY ENGINE'}`);
+    console.log(`=======================================================`);
+  });
+}
 
 export default app;
 

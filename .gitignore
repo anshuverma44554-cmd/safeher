@@ -9,6 +9,7 @@ dist/
 */dist/
 build/
 */build/
+/public/
 
 # Environment variables & credentials
 .env
