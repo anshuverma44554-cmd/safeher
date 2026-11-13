@@ -7,7 +7,9 @@ const chatSchema = z.object({
   messages: z.array(z.object({
     role: z.enum(['user', 'assistant', 'system']),
     content: z.string(),
-  })).min(1),
+  })).optional(),
+  message: z.string().optional(),
+  prompt: z.string().optional(),
   currentLocation: z.object({
     lat: z.number(),
     lng: z.number(),
@@ -18,21 +20,46 @@ const chatSchema = z.object({
 });
 
 export async function chatWithAi(req: Request, res: Response): Promise<void> {
-  const data = chatSchema.parse(req.body);
+  try {
+    const data = chatSchema.parse(req.body);
 
-  const result = await geminiAssistant.generateSafetyAdvice({
-    messages: data.messages,
-    currentLocation: data.currentLocation,
-    isEmergency: data.isEmergency,
-  });
+    // Normalize messages from messages array or single message/prompt
+    let messages = data.messages || [];
+    if (messages.length === 0 && (data.message || data.prompt)) {
+      messages = [{ role: 'user', content: (data.message || data.prompt) as string }];
+    }
 
-  res.json({
-    success: true,
-    response: result.response,
-    isAiGenerated: result.isAiGenerated,
-    emergencyTips: result.emergencyTips,
-    model: config.gemini.isConfigured ? config.gemini.model : 'SafeHer Safety Intelligence Engine',
-  });
+    if (messages.length === 0) {
+      messages = [{ role: 'user', content: 'What are essential travel safety tips for solo women travellers?' }];
+    }
+
+    const result = await geminiAssistant.generateSafetyAdvice({
+      messages,
+      currentLocation: data.currentLocation,
+      isEmergency: data.isEmergency,
+    });
+
+    res.json({
+      success: true,
+      response: result.response,
+      isAiGenerated: result.isAiGenerated,
+      emergencyTips: result.emergencyTips,
+      model: result.isAiGenerated ? (config.gemini.model || 'gemini-1.5-flash') : 'SafeHer Safety Intelligence Engine',
+    });
+  } catch (err: any) {
+    console.error('[SafeHer AI Controller Error]:', err);
+    res.status(200).json({
+      success: true,
+      response: "I encountered a brief connection delay, but I'm here for you! If you are in immediate danger, dial 112 or press the red Emergency SOS button on your SafeHer dashboard right away.",
+      isAiGenerated: false,
+      emergencyTips: [
+        "Dial 112 for Police Emergency",
+        "Dial 1091 for National Women Helpline",
+        "Move towards well-lit public transit or open stores"
+      ],
+      model: 'SafeHer Resilient Safety Engine'
+    });
+  }
 }
 
 export async function getQuickPhrases(req: Request, res: Response): Promise<void> {

@@ -17,9 +17,37 @@ import adminRoutes from './routes/adminRoutes.js';
 
 const app = express();
 
-// Security Middleware
+// Security Middleware with Custom CSP (Allows Leaflet Tiles, Unsplash Avatars & CDNs)
 app.use(helmet({
   crossOriginResourcePolicy: false,
+  crossOriginEmbedderPolicy: false,
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://unpkg.com", "https://cdnjs.cloudflare.com"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://unpkg.com", "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com", "data:"],
+      imgSrc: [
+        "'self'",
+        "data:",
+        "blob:",
+        "https://*.tile.openstreetmap.org",
+        "https://images.unsplash.com",
+        "https://unpkg.com",
+        "https://cdnjs.cloudflare.com",
+        "https://raw.githubusercontent.com",
+        "https://api.dicebear.com"
+      ],
+      connectSrc: [
+        "'self'",
+        "https://*.tile.openstreetmap.org",
+        "https://generativelanguage.googleapis.com",
+        "https://*.supabase.co"
+      ],
+      objectSrc: ["'none'"],
+      upgradeInsecureRequests: [],
+    },
+  },
 }));
 
 // CORS Configuration
@@ -68,13 +96,20 @@ app.use('/api/journey', journeyRoutes);
 app.use('/api/safe-places', safePlaceRoutes);
 app.use('/api/contacts', contactRoutes);
 app.use('/api/ai', aiRoutes);
+app.use('/api/chat', aiRoutes); // Direct /api/chat alias
 app.use('/api/admin', adminRoutes);
 
-// Serve Static Frontend Assets (Production on Render)
-const clientDistPath = fs.existsSync(path.resolve(process.cwd(), 'client/dist'))
-  ? path.resolve(process.cwd(), 'client/dist')
-  : path.resolve(process.cwd(), '../client/dist');
-if (fs.existsSync(clientDistPath)) {
+// Serve Static Frontend Assets (Production on Render / Cloud)
+const potentialDistPaths = [
+  path.resolve(process.cwd(), 'client/dist'),
+  path.resolve(process.cwd(), '../client/dist'),
+  path.resolve(__dirname, '../../client/dist'),
+  path.resolve(__dirname, '../client/dist'),
+];
+const clientDistPath = potentialDistPaths.find((p) => fs.existsSync(p));
+
+if (clientDistPath) {
+  console.log(`[SafeHer] Serving production frontend from: ${clientDistPath}`);
   app.use(express.static(clientDistPath));
 
   app.get('*', (req, res, next) => {
@@ -83,6 +118,8 @@ if (fs.existsSync(clientDistPath)) {
     }
     res.sendFile(path.join(clientDistPath, 'index.html'));
   });
+} else {
+  console.log('[SafeHer] Client dist directory not found. Running in API-only mode.');
 }
 
 // 404 Handler for API routes

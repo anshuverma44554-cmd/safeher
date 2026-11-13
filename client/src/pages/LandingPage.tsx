@@ -27,6 +27,7 @@ import {
   Zap
 } from 'lucide-react';
 import { SafePlacesMap } from '../components/map/SafePlacesMap';
+import { Avatar } from '../components/common/Avatar';
 import { useAuth } from '../context/AuthContext';
 import { useEmergency } from '../context/EmergencyContext';
 import { TestimonialGlobeDemo } from '../components/ui/testimonial-globe-demo';
@@ -267,17 +268,18 @@ export const LandingPage: React.FC = () => {
                   </div>
 
                   <div className="flex items-center gap-3 p-2 rounded-xl bg-purple-950/40 border border-purple-800/40">
-                    <img
+                    <Avatar
                       src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100"
-                      alt="Sunita Rao"
-                      className="w-10 h-10 rounded-full object-cover border-2 border-purple-400 shadow-md"
+                      name="Sunita Rao"
+                      sizeClass="w-10 h-10"
+                      className="border-2 border-purple-400 shadow-md"
                     />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-1.5">
                         <span className="text-xs font-bold text-white truncate">Sunita Rao</span>
                         <CheckCircle className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                       </div>
-                      <p className="text-[10px] text-slate-400 truncate">
+                      <p className="text-[10px] text-slate-300 truncate">
                         Red Cross First Responder • 1.2 km away
                       </p>
                     </div>
@@ -291,11 +293,11 @@ export const LandingPage: React.FC = () => {
 
                   <div className="grid grid-cols-2 gap-2 text-center text-xs pt-1">
                     <div className="p-2 rounded-xl bg-[#0B0F19] border border-slate-800">
-                      <div className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Safe Havens</div>
+                      <div className="text-[9px] text-slate-300 font-bold uppercase tracking-wider">Safe Havens</div>
                       <div className="text-xs font-black text-white">6 within 3km</div>
                     </div>
                     <div className="p-2 rounded-xl bg-[#0B0F19] border border-slate-800">
-                      <div className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">SOS Interlock</div>
+                      <div className="text-[9px] text-slate-300 font-bold uppercase tracking-wider">SOS Interlock</div>
                       <div className="text-xs font-black text-emerald-400">3s Anti-Mistake</div>
                     </div>
                   </div>
@@ -310,7 +312,7 @@ export const LandingPage: React.FC = () => {
                   <span>Tap to Test 3-Second SOS Interlock</span>
                 </button>
 
-                <p className="text-[10px] text-slate-400 text-center">
+                <p className="text-[10px] text-slate-300 text-center">
                   Strictly consent-based • Zero hidden surveillance • 100% private
                 </p>
 
@@ -331,7 +333,7 @@ export const LandingPage: React.FC = () => {
             <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
               Why Traditional SOS Apps Fall Short
             </h2>
-            <p className="text-sm sm:text-base text-slate-400 leading-relaxed">
+            <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
               Most emergency apps are passive sound sirens or unmonitored buttons. When a solo traveller encounters a dark alley, an unexpected cab deviation, or an intimidating situation in an unfamiliar city, waiting for family in another timezone is insufficient.
             </p>
           </div>
@@ -342,7 +344,7 @@ export const LandingPage: React.FC = () => {
                 01
               </div>
               <h3 className="font-extrabold text-lg text-white">Geographic Disorientation</h3>
-              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
                 Not knowing local emergency booth locations, 24/7 pharmacies, or trusted public safe zones in unfamiliar cities after dark.
               </p>
             </div>
@@ -352,7 +354,7 @@ export const LandingPage: React.FC = () => {
                 02
               </div>
               <h3 className="font-extrabold text-lg text-white">Slow Distant Response</h3>
-              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
                 Family members receiving an SMS hundreds of kilometers away cannot offer immediate physical presence, shelter, or local escort.
               </p>
             </div>
@@ -362,7 +364,7 @@ export const LandingPage: React.FC = () => {
                 03
               </div>
               <h3 className="font-extrabold text-lg text-white">Language & Cultural Barriers</h3>
-              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
                 Difficulty articulating distress, communicating street locations, or giving medical instructions in local languages during high stress.
               </p>
             </div>
@@ -622,15 +624,16 @@ export const LandingPage: React.FC = () => {
                   "{t.quote}"
                 </p>
                 <div className="flex items-center gap-3 pt-3 border-t border-slate-800">
-                  <img
+                  <Avatar
                     src={t.avatar}
-                    alt={t.name}
-                    className="w-11 h-11 rounded-full object-cover border-2 border-purple-500/50 shadow-sm"
+                    name={t.name}
+                    sizeClass="w-11 h-11"
+                    className="border-2 border-purple-500/50 shadow-sm"
                   />
                   <div>
                     <div className="text-xs font-bold text-white">{t.name}</div>
                     <div className="text-[11px] text-purple-400 font-semibold">{t.role}</div>
-                    <div className="text-[10px] text-slate-400">{t.location}</div>
+                    <div className="text-[10px] text-slate-300">{t.location}</div>
                   </div>
                 </div>
               </div>

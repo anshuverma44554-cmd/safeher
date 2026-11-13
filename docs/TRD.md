@@ -387,3 +387,4 @@ The server entry point (`server/src/server.ts`) is designed for cloud environmen
 - **TypeScript Compilation:** Zero errors via `tsc --noEmit` across both `client` and `server`.
 - **Production Build:** Passes `vite build` and Rollup minification within `< 10 seconds`.
 - **Emergency SLA:** End-to-end latency for Emergency SOS creation to guardian dispatch payload `< 1.2s`.
+

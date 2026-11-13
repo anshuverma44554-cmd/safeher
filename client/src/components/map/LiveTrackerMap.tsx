@@ -50,6 +50,24 @@ const MapBoundsAdjuster: React.FC<{ points: [number, number][] }> = ({ points })
   return null;
 };
 
+// Map Resizer to ensure Leaflet renders correctly when loaded or resized
+const MapResizer: React.FC = () => {
+  const map = useMap();
+  useEffect(() => {
+    map.invalidateSize();
+    const t1 = setTimeout(() => map.invalidateSize(), 150);
+    const t2 = setTimeout(() => map.invalidateSize(), 400);
+    const onResize = () => map.invalidateSize();
+    window.addEventListener('resize', onResize);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      window.removeEventListener('resize', onResize);
+    };
+  }, [map]);
+  return null;
+};
+
 interface LiveTrackerMapProps {
   startLat: number;
   startLng: number;
@@ -90,13 +108,15 @@ export const LiveTrackerMap: React.FC<LiveTrackerMapProps> = ({
         center={currentPos}
         zoom={13}
         scrollWheelZoom={true}
-        style={{ width: '100%', height: '100%' }}
+        style={{ width: '100%', height: '100%', minHeight: '350px' }}
       >
         <MapBoundsAdjuster points={[[startLat, startLng], [destLat, destLng]]} />
+        <MapResizer />
         
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          maxZoom={19}
         />
 
         {/* Route Polyline */}

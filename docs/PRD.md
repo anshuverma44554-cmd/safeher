@@ -218,3 +218,4 @@ flowchart TD
   - Integration with municipal emergency dispatch APIs (E911, 112 Europe, 1091 India).
   - Corporate travel safety dashboard for solo female employees.
   - Guardian peer background check & decentralized identity verification (DID).
+

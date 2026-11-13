@@ -118,10 +118,13 @@ How can I assist your safe journey today?`,
 
       {/* Slide-out Drawer - Dark OLED Theme */}
       {isOpen && (
-        <div className="fixed inset-y-0 right-0 z-50 w-full sm:w-[440px] bg-[#0B0F19] shadow-2xl border-l border-purple-900/40 flex flex-col animate-in slide-in-from-right duration-200 text-slate-200">
+        <div
+          style={{ colorScheme: 'dark' }}
+          className="fixed inset-y-0 right-0 z-50 w-full sm:w-[440px] bg-[#07090E] shadow-2xl border-l border-purple-900/50 flex flex-col animate-in slide-in-from-right duration-200 text-slate-100"
+        >
           
           {/* Header */}
-          <div className="p-4 bg-gradient-to-r from-purple-950 via-slate-950 to-indigo-950 text-white flex items-center justify-between border-b border-purple-900/40 shadow-sm">
+          <div className="p-4 bg-gradient-to-r from-purple-950 via-[#0B0F19] to-indigo-950 text-white flex items-center justify-between border-b border-purple-900/50 shadow-sm">
             <div className="flex items-center gap-2.5">
               <div className="w-9 h-9 rounded-xl bg-purple-900/60 border border-purple-500/40 flex items-center justify-center shadow-md">
                 <Bot className="w-5 h-5 text-amber-300" />
@@ -148,10 +151,10 @@ How can I assist your safe journey today?`,
           </div>
 
           {/* Emergency Crisis Mode Switch */}
-          <div className="px-4 py-2 bg-[#0D121F] border-b border-slate-800 flex items-center justify-between text-xs">
+          <div className="px-4 py-2 bg-[#090D16] border-b border-slate-800 flex items-center justify-between text-xs">
             <div className="flex items-center gap-1.5">
-              <AlertTriangle className={`w-3.5 h-3.5 ${isEmergencyMode ? 'text-red-400' : 'text-slate-500'}`} />
-              <span className={`font-semibold ${isEmergencyMode ? 'text-red-400 font-bold' : 'text-slate-400'}`}>
+              <AlertTriangle className={`w-3.5 h-3.5 ${isEmergencyMode ? 'text-red-400' : 'text-slate-400'}`} />
+              <span className={`font-semibold ${isEmergencyMode ? 'text-red-400 font-bold' : 'text-slate-300'}`}>
                 Emergency Priority Mode
               </span>
             </div>
@@ -171,24 +174,25 @@ How can I assist your safe journey today?`,
           </div>
 
           {/* Chat Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-[#07090E]">
             {messages.map((msg, idx) => (
               <div
                 key={idx}
                 className={`flex gap-2.5 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 {msg.role === 'assistant' && (
-                  <div className="w-7 h-7 rounded-lg bg-purple-950/80 border border-purple-800/60 flex items-center justify-center shrink-0 mt-0.5 text-purple-300">
-                    <Bot className="w-4 h-4 text-purple-400" />
+                  <div className="w-7 h-7 rounded-lg bg-purple-950/90 border border-purple-800/80 flex items-center justify-center shrink-0 mt-0.5 text-purple-300">
+                    <Bot className="w-4 h-4 text-purple-300" />
                   </div>
                 )}
 
                 <div
-                  className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-xs leading-relaxed shadow-sm ${
+                  className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-xs sm:text-[13px] leading-relaxed shadow-sm ${
                     msg.role === 'user'
-                      ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-br-none shadow-md shadow-purple-600/20'
-                      : 'bg-[#0D121F] border border-slate-800 text-slate-200 rounded-bl-none whitespace-pre-wrap'
+                      ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-medium rounded-br-none shadow-md shadow-purple-600/30'
+                      : 'bg-[#101726] border border-slate-800/90 text-slate-100 rounded-bl-none whitespace-pre-wrap'
                   }`}
+                  style={{ color: msg.role === 'user' ? '#ffffff' : '#f1f5f9' }}
                 >
                   {msg.content}
                 </div>
@@ -206,7 +210,7 @@ How can I assist your safe journey today?`,
                 <div className="w-7 h-7 rounded-lg bg-purple-950 flex items-center justify-center">
                   <Bot className="w-4 h-4 text-purple-400 animate-spin" />
                 </div>
-                <span className="italic">SafeHer AI is synthesizing safety advice...</span>
+                <span className="italic font-medium">SafeHer AI is synthesizing safety advice...</span>
               </div>
             )}
 
@@ -219,7 +223,7 @@ How can I assist your safe journey today?`,
               <button
                 key={i}
                 onClick={() => handleSend(prompt)}
-                className="px-2.5 py-1 rounded-lg bg-[#0D121F] border border-slate-800 text-slate-300 hover:text-purple-300 hover:border-purple-600/60 whitespace-nowrap transition-colors shrink-0"
+                className="px-2.5 py-1.5 rounded-lg bg-[#101726] border border-slate-700/80 text-slate-200 hover:text-white hover:border-purple-500 whitespace-nowrap transition-colors shrink-0 font-medium"
               >
                 {prompt}
               </button>
@@ -227,7 +231,7 @@ How can I assist your safe journey today?`,
           </div>
 
           {/* Input Box */}
-          <div className="p-3 bg-[#0B0F19] border-t border-slate-800">
+          <div className="p-3 bg-[#090D16] border-t border-slate-800">
             <form
               onSubmit={(e) => {
                 e.preventDefault();
@@ -241,24 +245,25 @@ How can I assist your safe journey today?`,
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 disabled={isLoading}
-                className="flex-1 px-3.5 py-2.5 text-xs bg-[#0D121F] border border-slate-800 text-white placeholder:text-slate-500 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500"
+                style={{ color: '#ffffff', backgroundColor: '#101726', colorScheme: 'dark' }}
+                className="flex-1 px-3.5 py-2.5 text-xs sm:text-sm bg-[#101726] border border-slate-700/90 text-white placeholder:text-slate-400 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500/60 focus:border-purple-500 shadow-inner"
               />
               <button
                 type="submit"
                 disabled={!input.trim() || isLoading}
-                className="p-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 disabled:opacity-40 text-white rounded-xl transition-all shadow-md shadow-purple-600/30"
+                className="p-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 disabled:opacity-40 text-white rounded-xl transition-all shadow-md shadow-purple-600/30 shrink-0"
               >
                 <Send className="w-4 h-4" />
               </button>
             </form>
 
-            <div className="mt-2 flex items-center justify-between text-[10px] text-slate-500">
-              <span>Safety Advice Powered by Gemini</span>
+            <div className="mt-2 flex items-center justify-between text-[11px] text-slate-300">
+              <span className="font-medium text-slate-400">Safety Advice Powered by Gemini</span>
               <button
                 onClick={openConfirmModal}
-                className="text-red-400 font-bold hover:underline flex items-center gap-0.5"
+                className="text-red-400 font-extrabold hover:underline flex items-center gap-0.5"
               >
-                <AlertTriangle className="w-3 h-3" />
+                <AlertTriangle className="w-3.5 h-3.5" />
                 Trigger SOS
               </button>
             </div>

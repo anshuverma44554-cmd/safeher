@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { api } from '../services/api';
+import { Avatar } from '../components/common/Avatar';
 import { AdminStats, Guardian, User } from '../types';
 
 export const AdminDashboard: React.FC = () => {
@@ -233,10 +234,10 @@ export const AdminDashboard: React.FC = () => {
                   <tr key={g.id} className="hover:bg-slate-50/60 transition-colors">
                     <td className="py-3.5 px-4 font-semibold text-slate-900">
                       <div className="flex items-center gap-2">
-                        <img
-                          src={g.avatar_url || `https://api.dicebear.com/7.x/initials/svg?seed=${g.full_name}`}
-                          alt=""
-                          className="w-7 h-7 rounded-full object-cover"
+                        <Avatar
+                          src={g.avatar_url}
+                          name={g.full_name}
+                          sizeClass="w-7 h-7"
                         />
                         <div>
                           <div className="font-bold">{g.full_name}</div>

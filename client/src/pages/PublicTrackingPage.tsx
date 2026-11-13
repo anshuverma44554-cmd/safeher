@@ -14,6 +14,7 @@ import {
 import { api } from '../services/api';
 import { Journey } from '../types';
 import { LiveTrackerMap } from '../components/map/LiveTrackerMap';
+import { Avatar } from '../components/common/Avatar';
 
 export const PublicTrackingPage: React.FC = () => {
   const { shareToken } = useParams<{ shareToken: string }>();
@@ -87,11 +88,12 @@ export const PublicTrackingPage: React.FC = () => {
         <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-100">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-2xl bg-purple-100 border border-purple-200 overflow-hidden flex items-center justify-center">
-              {journey.traveller_avatar ? (
-                <img src={journey.traveller_avatar} alt="" className="w-full h-full object-cover" />
-              ) : (
-                <Shield className="w-6 h-6 text-purple-700" />
-              )}
+              <Avatar
+                src={journey.traveller_avatar}
+                name={journey.traveller_name}
+                sizeClass="w-full h-full"
+                className="rounded-2xl"
+              />
             </div>
             <div>
               <div className="flex items-center gap-2">

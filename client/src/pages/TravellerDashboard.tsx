@@ -24,6 +24,7 @@ import { api } from '../services/api';
 import { Journey, TrustedContact, SafePlace, Guardian } from '../types';
 import { SafePlacesMap } from '../components/map/SafePlacesMap';
 import { LiveTrackerMap } from '../components/map/LiveTrackerMap';
+import { Avatar } from '../components/common/Avatar';
 
 export const TravellerDashboard: React.FC = () => {
   const { user } = useAuth();
@@ -458,10 +459,11 @@ export const TravellerDashboard: React.FC = () => {
                   className="p-3 rounded-2xl bg-slate-50/70 border border-slate-200 flex items-center justify-between gap-3"
                 >
                   <div className="flex items-center gap-3 min-w-0">
-                    <img
-                      src={guardian.avatar_url || `https://api.dicebear.com/7.x/initials/svg?seed=${guardian.full_name}`}
-                      alt={guardian.full_name}
-                      className="w-10 h-10 rounded-full object-cover border border-purple-200"
+                    <Avatar
+                      src={guardian.avatar_url}
+                      name={guardian.full_name}
+                      sizeClass="w-10 h-10"
+                      className="border border-purple-200"
                     />
                     <div className="min-w-0">
                       <div className="flex items-center gap-1.5">

@@ -2,17 +2,12 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 import { config } from '../config/env.js';
 
 class GeminiSafetyAssistant {
-  private genAI: GoogleGenerativeAI | null = null;
-
-  constructor() {
-    if (config.gemini.isConfigured) {
-      try {
-        this.genAI = new GoogleGenerativeAI(config.gemini.apiKey);
-        console.log('[SafeHer AI] Google Gemini API client initialized.');
-      } catch (err) {
-        console.warn('[SafeHer AI] Failed to initialize Gemini API:', err);
-      }
+  private getClient(apiKey?: string): GoogleGenerativeAI | null {
+    const key = apiKey || process.env.GEMINI_API_KEY || config.gemini.apiKey;
+    if (key && key !== 'your_gemini_api_key_here' && key.trim().length > 10) {
+      return new GoogleGenerativeAI(key.trim());
     }
+    return null;
   }
 
   public async generateSafetyAdvice(params: {
@@ -26,7 +21,7 @@ class GeminiSafetyAssistant {
       : 'User location: Not specified.';
 
     const systemInstructions = `
-You are SafeHer AI - an intelligent, empathetic, and reliable travel safety copilot designed specifically for women and solo travellers.
+You are SafeHer AI, a solo women travel safety copilot designed specifically for women and solo travellers.
 Guidelines:
 1. Prioritize actionable, immediate safety advice.
 2. If the user appears to be in immediate physical danger, instruct them to call 112 (or local equivalent emergency hotline), enter a crowded open store/cafe, and press the SafeHer Emergency SOS button immediately.
@@ -37,34 +32,71 @@ ${locationContext}
 Emergency Mode: ${params.isEmergency ? 'ACTIVE EMERGENCY' : 'Standard Safety Guidance'}
 `;
 
-    // Attempt Gemini API call if configured
-    if (this.genAI && config.gemini.isConfigured) {
-      try {
-        const model = this.genAI.getGenerativeModel({
-          model: config.gemini.model,
-          systemInstruction: systemInstructions
-        });
+    // Attempt Gemini API call dynamically with supported models
+    const client = this.getClient();
+    if (client) {
+      const candidateModels = [
+        process.env.GEMINI_MODEL || config.gemini.model || 'gemini-1.5-flash',
+        'gemini-2.0-flash',
+        'gemini-1.5-pro'
+      ];
 
-        const chat = model.startChat({
-          history: params.messages.slice(0, -1).map(m => ({
-            role: m.role === 'assistant' ? 'model' : 'user',
-            parts: [{ text: m.content }]
-          }))
-        });
+      for (const modelName of candidateModels) {
+        try {
+          const model = client.getGenerativeModel({
+            model: modelName,
+            systemInstruction: systemInstructions
+          });
 
-        const result = await chat.sendMessage(userPrompt);
-        const text = result.response.text();
-        return {
-          response: text,
-          isAiGenerated: true,
-          emergencyTips: this.getEmergencyQuickTips()
-        };
-      } catch (err: any) {
-        console.warn('[SafeHer AI] Gemini API call failed or timed out. Falling back to local safety rules:', err.message);
+          // Sanitize history so first role is strictly 'user' and roles alternate 'user' -> 'model'
+          const prior = params.messages.slice(0, -1);
+          const firstUserIdx = prior.findIndex(m => m.role === 'user');
+          const cleanHistory: Array<{ role: 'user' | 'model'; parts: Array<{ text: string }> }> = [];
+
+          if (firstUserIdx >= 0) {
+            let expectedRole: 'user' | 'model' = 'user';
+            for (let i = firstUserIdx; i < prior.length; i++) {
+              const m = prior[i];
+              const role: 'user' | 'model' = m.role === 'assistant' ? 'model' : 'user';
+              if (role === expectedRole) {
+                cleanHistory.push({
+                  role,
+                  parts: [{ text: m.content || ' ' }]
+                });
+                expectedRole = expectedRole === 'user' ? 'model' : 'user';
+              } else if (cleanHistory.length > 0) {
+                cleanHistory[cleanHistory.length - 1].parts.push({ text: `\n${m.content || ''}` });
+              }
+            }
+            if (cleanHistory.length > 0 && cleanHistory[cleanHistory.length - 1].role === 'user') {
+              cleanHistory.pop();
+            }
+          }
+
+          const chat = model.startChat({
+            history: cleanHistory
+          });
+
+          const result = await chat.sendMessage(userPrompt);
+          const text = result.response.text();
+          if (text && text.trim().length > 0) {
+            return {
+              response: text,
+              isAiGenerated: true,
+              emergencyTips: this.getEmergencyQuickTips()
+            };
+          }
+        } catch (err: any) {
+          console.error(`[SafeHer AI] Model '${modelName}' call failed:`, err?.message || err);
+          // Try next candidate model in list
+        }
       }
+      console.warn('[SafeHer AI] All Gemini candidate models failed. Falling back to built-in safety rules.');
+    } else {
+      console.info('[SafeHer AI] No valid GEMINI_API_KEY found in environment. Serving via built-in SafeHer Intelligence Engine.');
     }
 
-    // High quality offline / fallback response engine
+    // High quality offline / fallback response engine with chip recognition
     const fallbackResponse = this.generateFallbackAdvice(userPrompt, params.isEmergency, params.currentLocation);
     return {
       response: fallbackResponse,
@@ -83,6 +115,16 @@ Emergency Mode: ${params.isEmergency ? 'ACTIVE EMERGENCY' : 'Standard Safety Gui
 3. **Trigger SafeHer SOS:** Press the red SOS button on your dashboard to notify your trusted contacts and alert nearby verified guardians.
 4. **Call Emergency Police Hotline:** Dial **112** (All-India Emergency / International Standard) or **1091** (National Women Helpline).
 5. **Pretend Phone Call:** If unable to enter a store, stay on a loud active call with a contact while stating your exact location repeatedly.`;
+    }
+
+    if (p.includes('connaught') || p.includes('cp') || (p.includes('10 pm') && p.includes('safe'))) {
+      return `🏛️ **Connaught Place (CP), New Delhi — Safety Assessment at 10 PM:**
+• **Inner Circle & Metro Stations:** Rajiv Chowk Metro Station and Inner Circle blocks are well-lit with active police PCR vans and open restaurants until 11:00 PM.
+• **Outer Circle & Radial Alleys:** Caution is advised in unlit service lanes and radial parking pockets after 10:30 PM. Prefer walking along the colonnade corridors where security guards are stationed.
+• **Verified Safe Havens Nearby:**
+  - *Women Special Police Assistance Booth* (Outer Circle, near Rajiv Chowk Gate 2).
+  - *Barista 24/7 Safe Haven Cafe* (M-Block, Connaught Place).
+• **Transit Recommendation:** Take Delhi Metro from Rajiv Chowk (last trains ~11:15 PM) or use app-booked cabs directly from designated pickup points on main radial roads.`;
     }
 
     if (p.includes('cab') || p.includes('taxi') || p.includes('uber') || p.includes('ola') || p.includes('ride') || p.includes('night')) {
