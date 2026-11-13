@@ -9,6 +9,7 @@ import { Footer } from './components/common/Footer';
 import { ActiveSosBanner } from './components/common/ActiveSosBanner';
 import { EmergencyModal } from './components/common/EmergencyModal';
 import { AiAssistantDrawer } from './components/ai/AiAssistantDrawer';
+import { IntroPreloader } from './components/common/IntroPreloader';
 
 // Pages
 import { LandingPage } from './pages/LandingPage';
@@ -53,6 +54,7 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode; allowedRoles?: Array
 function AppContent() {
   return (
     <div className="min-h-screen flex flex-col bg-[#07090E] text-slate-100 font-sans">
+      <IntroPreloader />
       <Navbar />
       <ActiveSosBanner />
 
